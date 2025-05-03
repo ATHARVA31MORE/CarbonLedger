@@ -1,10 +1,12 @@
 import { ethers } from "ethers";
 import GreenTokenABI from "./ABI/GreenToken.json";
 import CarbonLedgerABI from "./ABI/CarbonLedger.json";
+import CarbonLedgerWithOffset from "./ABI/CarbonLedgerWithOffset.json";
 
 // Deployed contract addresses
-export const GREEN_TOKEN_ADDRESS = "0x1d72D76c8B456297900eA6FDEb5c9a50f42baFd2";
-export const CARBON_LEDGER_ADDRESS = "0xb4dAA0e89CB3b8e21D48C1D3E592747A2736EF03";
+export const GREEN_TOKEN_ADDRESS = "0xBe54631ED0C151Dd0B7f5795cbeBBFd7b5db19Ae";
+export const CARBON_LEDGER_ADDRESS = "0xF8C326965D39b4cf233C620393d77c2d8Ce6A309";
+export const CARBON_LEDGER_WITH_OFFSET_ADDRESS = "0x45C21305b621013718A28EBaf2F984BAF2EFBf1C";
 
 // Function to get provider (Metamask or fallback)
 export function getProvider() {
@@ -25,6 +27,10 @@ export function getGreenTokenContract(signerOrProvider) {
 export function getCarbonLedgerContract(signerOrProvider) {
   return new ethers.Contract(CARBON_LEDGER_ADDRESS, CarbonLedgerABI.abi, signerOrProvider);
 }
+export function getCarbonLedgerWithOffsetContract(signerOrProvider) {
+  return new ethers.Contract(CARBON_LEDGER_WITH_OFFSET_ADDRESS, CarbonLedgerWithOffset.abi, signerOrProvider); 
+}
+
 
 // Helper function to get a signer
 export async function getSigner() {
