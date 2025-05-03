@@ -3,6 +3,7 @@ import { getProvider, getGreenTokenContract, getCarbonLedgerContract } from "./b
 import { ethers } from "ethers";
 import ProjectRegistration from "./components/ProjectRegistration";
 import ProjectList from "./components/ProjectList";
+import OwnershipManagement from "./components/OwnershipManagement";
 
 function App() {
   const [account, setAccount] = useState("");
@@ -91,9 +92,14 @@ function App() {
       const balance = await greenToken.balanceOf(address);
       setGreenBalance(ethers.formatEther(balance));
       
-      // Get carbon offset amount
-      const offset = await carbonLedger.getUserCarbonOffset(address);
-      setCarbonOffset(ethers.formatEther(offset));
+      // Try to get carbon offset amount, but handle if function doesn't exist
+      try {
+        const offset = await carbonLedger.getUserCarbonOffset(address);
+        setCarbonOffset(ethers.formatEther(offset));
+      } catch (offsetErr) {
+        console.warn("getUserCarbonOffset not available in contract:", offsetErr);
+        setCarbonOffset("0"); // Set default value
+      }
     } catch (err) {
       console.error("Failed to fetch user data:", err);
     } finally {
@@ -149,6 +155,9 @@ function App() {
 
           {/* Project Registration Form */}
           <ProjectRegistration onProjectAdded={handleProjectAdded} />
+          
+          {/* Ownership Management */}
+          <OwnershipManagement />
           
           {/* List of Registered Projects */}
           <ProjectList />
